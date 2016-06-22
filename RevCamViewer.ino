@@ -178,7 +178,15 @@ void loop() {
   
   HTTPClient http;
   http.begin(url);
-  Serial.println(http.GET());
+
+  uint8_t http_status = http.GET();
+
+  Serial.print("HTTP status: ");
+  Serial.println(http_status);
+
+  if(http_status != 200) {
+    return;
+  }
 
   WiFiClient * stream = http.getStreamPtr();
   uint16_t len = http.getSize();
@@ -200,6 +208,7 @@ void loop() {
   renderJPEG(0, 0);
 
   Serial.println("done.");
+  delete[] buf;
 
   for(int i = 0; i < 50; i++) {
       b_left.update();
