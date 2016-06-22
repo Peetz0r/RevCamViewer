@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import sys, os, datetime, http.server, socket, socketserver, signal, requests
+import sys, os, datetime, http.server, socket, socketserver, signal, requests, time
 from PIL import Image
 from io import BytesIO
 
@@ -48,6 +48,7 @@ class WebHandler(http.server.BaseHTTPRequestHandler):
 					attempts = 0
 					out('[camera '+cam+'] [Done!] Length: '+str(length)+']')
 				except Exception as e:
+					time.sleep(0.5)
 					out(repr(e))
 		self.finish()
 		self.connection.close()
