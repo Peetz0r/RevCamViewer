@@ -4,7 +4,6 @@
 
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
-#include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 #include <ESP8266HTTPClient.h>
 #include <Bounce2.h>
@@ -17,29 +16,30 @@ IPAddress server(10,42,43,152);
 const int port = 9999;
 const unsigned long restart_timeout = 5*60*1000;
 
-WiFiClient client;
-
 #define TFT_CS     0
 #define TFT_RST    0
-#define TFT_DC     16
-Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
+#define TFT_DC    16
 
-#define PIN_LEFT     5
-#define PIN_RIGHT   4
+#define PIN_LEFT   5
+#define PIN_RIGHT  4
 
 #define NUM_CAMS  10
+
+Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
+
+WiFiClient client;
 
 Bounce b_left   = Bounce();
 Bounce b_right = Bounce();
 
-uint8_t cam = 4;
+uint8_t cam = 1;
 
 void setCam(int relativeCam) {
   cam += relativeCam;
   if(cam < 1) cam = NUM_CAMS;
   if(cam > NUM_CAMS) cam = 1;
   tft.fillScreen(ST7735_BLACK);
-  tft.setCursor(36,8);
+  tft.setCursor(104-(48*String(cam).length()), 20);
   tft.setTextColor(ST7735_GREEN);
   tft.setTextSize(12);
   tft.print(cam);
