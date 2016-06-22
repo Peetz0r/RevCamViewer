@@ -26,16 +26,16 @@ class WebHandler(http.server.BaseHTTPRequestHandler):
 			url = 'http://pov/cgi-bin/nph-mjgrab?'+cam
 			out('[camera '+cam+'] ['+url+']')
 
-			attempts = 4
+			attempts = 6
 			while attempts > 0:
-				out('[camera '+cam+'] [Attempt '+ str(4-attempts)+']')
+				out('[camera '+cam+'] [Attempt '+ str(6-attempts)+']')
 				try:
 					attempts -= 1
 					if(attempts == 0):
-						im_io = BytesIO(requests.get('http://cnyweather.com/images/offline.jpg').content)
+						im = Image.open('offline.jpg')
 					else:
 						im_io = BytesIO(requests.get(url).content)
-					im = Image.open(im_io)
+						im = Image.open(im_io)
 					im = im.resize((160, 128), Image.BICUBIC)
 					io_tmp = BytesIO()
 					im.save(io_tmp, 'jpeg', quality=80)
@@ -48,7 +48,7 @@ class WebHandler(http.server.BaseHTTPRequestHandler):
 					attempts = 0
 					out('[camera '+cam+'] [Done!] Length: '+str(length)+']')
 				except Exception as e:
-					time.sleep(0.5)
+					time.sleep(0.8)
 					out(repr(e))
 		self.finish()
 		self.connection.close()
