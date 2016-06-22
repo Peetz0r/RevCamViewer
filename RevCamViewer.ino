@@ -134,11 +134,6 @@ void setup(void) {
   Serial.println();
   Serial.println();
 
-  for(int i = 20; i > 0; i--) {
-    Serial.println(i);
-    delay(200);
-  }
-  
   Serial.println("Start");
   tft.initR(INITR_BLACKTAB);   // initialize a ST7735S chip, black tab
   Serial.println("Initialized");
